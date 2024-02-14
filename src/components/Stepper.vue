@@ -5,7 +5,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="container">
+  <!-- Quote: With scoped, the parent component's styles will not leak into child components. However, a child component's root node will be affected by both the parent's scoped CSS and the child's scoped CSS. This is by design so that the parent can style the child root element for layout purposes.
+  https://vuejs.org/api/sfc-css-features.html#scoped-css 
+  This is why I have to name this class `stepper-container` here, because the parent component has a `container` class as well as the child's root node. I really don't understand this "feature". Svelte does not do this. This seems very counter-intuitive. If you wanted to control the layout of the child component from the parent, you could just pass a prop.
+  -->
+  <div class="stepper-container">
     <div class="step">
       <div class="bullet" :class="{ active: props.step === 1 }">1</div>
       <div class="step-text">
@@ -38,7 +42,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
-.container {
+.stepper-container {
   padding: 32px;
   background: url('/images/bg-sidebar-mobile.svg');
   background-repeat: no-repeat;
@@ -78,13 +82,13 @@ const props = defineProps({
 }
 
 @media (min-width: 375px) {
-  .container {
+  .stepper-container {
     background-size: cover;
   }
 }
 
 @media (min-width: 800px) {
-  .container {
+  .stepper-container {
     background-image: url('/images/bg-sidebar-desktop.svg');
     background-position: center;
     border-radius: 10px;
