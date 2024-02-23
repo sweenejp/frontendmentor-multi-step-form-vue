@@ -12,7 +12,6 @@ import RadioButton from './RadioButton.vue';
 
 const props = defineProps({
   selectedBillingCycle: String,
-  msg: String,
 });
 
 const plans = inject('plans');
