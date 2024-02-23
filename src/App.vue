@@ -48,8 +48,18 @@ const goToPrevStep = () => {
 const setStep = (s) => {
   step.value = s;
 };
+const submit = () => {
+  console.log({
+    name: name.value,
+    email: email.value,
+    phone: phone.value,
+    plan: plan.value,
+    addOns: Array.from(addOns.value),
+    selectedBillingCycle: selectedBillingCycle.value,
+  });
+};
 
-provide('actions', { goToNextStep, goToPrevStep, setStep });
+provide('actions', { goToNextStep, goToPrevStep, setStep, submit });
 provide('plans', plans);
 provide('addOns', addOnsData);
 </script>

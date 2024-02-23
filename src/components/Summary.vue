@@ -66,7 +66,9 @@ const actions = inject('actions');
       </div>
     </template>
     <template #form-actions>
-      <Button type="submit" variant="primary">Confirm</Button>
+      <Button type="submit" variant="primary" @click.prevent="actions.submit"
+        >Confirm</Button
+      >
       <Button variant="tertiary" @click="actions.goToPrevStep">Go Back</Button>
     </template>
   </FormWrapper>
