@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject } from 'vue';
+import { inject } from 'vue';
 import { billingCycleAbrevs } from '../copyMaps';
 import ArcadeIcon from './icons/ArcadeIcon.vue';
 import AdvancedIcon from './icons/AdvancedIcon.vue';
@@ -67,7 +67,12 @@ const isYearly = defineModel('isYearly');
       </div>
     </template>
     <template #form-actions>
-      <Button variant="secondary">Next Step</Button>
+      <Button
+        type="submit"
+        variant="secondary"
+        @click.prevent="actions.goToNextStep"
+        >Next Step</Button
+      >
       <Button variant="tertiary" @click="actions.goToPrevStep">Go Back</Button>
     </template>
   </FormWrapper>

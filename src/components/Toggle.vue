@@ -10,7 +10,7 @@ const checked = defineModel();
 /** @param {KeyboardEvent} event */
 function handleKeyDown(event) {
   if (event.key === ' ') {
-    checked = !checked;
+    checked.value = !checked.value;
   }
 }
 </script>
