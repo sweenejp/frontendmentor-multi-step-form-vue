@@ -1,21 +1,23 @@
 <script setup>
-import { ref, provide, computed } from 'vue';
+import { ref, provide, computed, watch } from 'vue';
 import PersonalInfo from './components/PersonalInfo.vue';
 import Plan from './components/Plan.vue';
+import AddOns from './components/AddOns.vue';
 import Stepper from './components/Stepper.vue';
 import plans from './mockdata/plans.json';
+import addOnsData from './mockdata/addOns.json';
 
 const name = ref('');
 const email = ref('');
 const phone = ref('');
 const plan = ref(plans[0].value);
-console.log(plan.value);
+const addOns = ref([]);
 const isYearly = ref(false);
 const selectedBillingCycle = computed(() => {
   return isYearly.value ? 'yearly' : 'monthly';
 });
 
-const step = ref(2);
+const step = ref(3);
 const goToNextStep = () => {
   step.value++;
 };
@@ -25,6 +27,7 @@ const goToPrevStep = () => {
 
 provide('actions', { goToNextStep, goToPrevStep });
 provide('plans', plans);
+provide('addOns', addOnsData);
 </script>
 
 <template>
@@ -45,6 +48,11 @@ provide('plans', plans);
             v-model:isYearly="isYearly"
             :selectedBillingCycle="selectedBillingCycle"
           ></Plan>
+          <AddOns
+            v-if="step === 3"
+            v-model:addOns="addOns"
+            :selectedBillingCycle="selectedBillingCycle"
+          ></AddOns>
         </div>
       </div>
     </div>
