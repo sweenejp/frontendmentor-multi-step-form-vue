@@ -1,10 +1,12 @@
 <script setup>
-import { ref, provide, computed, watch } from 'vue';
+import { ref, provide, computed } from 'vue';
+import mockFetch from './mockFetch';
 import PersonalInfo from './components/PersonalInfo.vue';
 import Plan from './components/Plan.vue';
 import AddOns from './components/AddOns.vue';
 import Summary from './components/Summary.vue';
 import Stepper from './components/Stepper.vue';
+import Confirmation from './components/Confirmation.vue';
 import plans from './mockdata/plans.json';
 import addOnsData from './mockdata/addOns.json';
 
@@ -14,6 +16,8 @@ const phone = ref('');
 const plan = ref(plans[0].value);
 const addOns = ref([]);
 const isYearly = ref(false);
+const formSubmission = ref({ status: 'idle', data: null });
+
 const selectedPlan = computed(() => {
   return plans.find((p) => p.value === plan.value);
 });
@@ -48,15 +52,17 @@ const goToPrevStep = () => {
 const setStep = (s) => {
   step.value = s;
 };
-const submit = () => {
-  console.log({
+const submit = async () => {
+  formSubmission.value.status = 'pending';
+  const res = await mockFetch({
     name: name.value,
     email: email.value,
     phone: phone.value,
     plan: plan.value,
     addOns: Array.from(addOns.value),
-    selectedBillingCycle: selectedBillingCycle.value,
+    billingPlan: selectedBillingCycle.value,
   });
+  formSubmission.value = res;
 };
 
 provide('actions', { goToNextStep, goToPrevStep, setStep, submit });
@@ -70,25 +76,28 @@ provide('addOns', addOnsData);
       <Stepper :step="step"></Stepper>
       <div class="content-flex-wrapper">
         <div class="content-container">
+          <Confirmation
+            v-if="formSubmission.status === 'success'"
+          ></Confirmation>
           <PersonalInfo
-            v-if="step === 1"
+            v-else-if="step === 1"
             v-model:name="name"
             v-model:email="email"
             v-model:phone="phone"
           ></PersonalInfo>
           <Plan
-            v-if="step === 2"
+            v-else-if="step === 2"
             v-model:plan="plan"
             v-model:isYearly="isYearly"
             :selectedBillingCycle="selectedBillingCycle"
           ></Plan>
           <AddOns
-            v-if="step === 3"
+            v-else-if="step === 3"
             v-model:addOns="addOns"
             :selectedBillingCycle="selectedBillingCycle"
           ></AddOns>
           <Summary
-            v-if="step === 4"
+            v-else-if="step === 4"
             :plan="selectedPlan"
             :addOns="selectedAddOns"
             :selectedBillingCycle="selectedBillingCycle"
