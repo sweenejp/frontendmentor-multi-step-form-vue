@@ -42,7 +42,7 @@ const total = computed(() => {
   return planPrice.value + addonsTotal.value;
 });
 
-const step = ref(4);
+const step = ref(1);
 const goToNextStep = () => {
   step.value++;
 };
