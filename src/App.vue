@@ -60,7 +60,7 @@ const submit = async () => {
     phone: phone.value,
     plan: plan.value,
     addOns: Array.from(addOns.value),
-    billingPlan: selectedBillingCycle.value,
+    billingCycle: selectedBillingCycle.value,
   });
   formSubmission.value = res;
 };
@@ -78,6 +78,7 @@ provide('addOns', addOnsData);
         <div class="content-container">
           <Confirmation
             v-if="formSubmission.status === 'success'"
+            :submission-data="formSubmission.data"
           ></Confirmation>
           <PersonalInfo
             v-else-if="step === 1"
